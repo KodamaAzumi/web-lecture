@@ -1,12 +1,21 @@
-const clockwidth = 50;
+const clockWidth = 50;
+const clockColor = 0;
 
 function setup(){
     createCanvas(720, 400);
 
     console.log(new Date());
-    console.log(new Date().getTime())
-    console.log((Date.parse(`${year()}/9/18`)-new Date().getTime())/(1000*60*60*24)+1);
-    console.log((Date.parse(`${year()}/12/31`)-new Date().getTime())/(1000*60*60*24)+1);
+    const today = new Date().getTime();
+    console.log(today);
+
+    const newYearsEve = Date.parse(`${year()}/12/31`);
+    console.log(newYearsEve);
+    console.log((newYearsEve-today)/(1000*60*60*24)+1);
+
+    const summerHoliday = Date.parse(`${year()}/9/18`);
+    const limitSH = (summerHoliday - today)/(1000*60*60*24)+1;
+    console.log(limitSH);
+
 };
 
 function draw(){
@@ -14,15 +23,18 @@ function draw(){
     SC();
     MC();
     HC();
+    if(year() < 2023){
+        DC();
+    };
     lavel();
 };
 
 
 //時計の見た目
-    //白地
-    const whiteBg = (x, y, w, h) =>{
+    //下地
+    const GW = (x, y, w, h) =>{
         noStroke();
-        fill('white');
+        fill('White');
         rect(x, y, w, h)
     };
 
@@ -39,7 +51,7 @@ function draw(){
         strokeWeight(sw);
         noFill();
         rect(x, y, w, h);
-        line(x, y+h/2, x + clockwidth, y+h/2);
+        line(x, y+h/2, x + clockWidth, y+h/2);
     };
 
     //text
@@ -50,40 +62,59 @@ function draw(){
         text(clockText, x, y);
     };
 
+//残りの秒数
 const SC= () =>{
-    const x = 80;
+    const x = 50;
     const y = 350;
 
-    whiteBg(x, y, clockwidth, -60*3);
-    RA(x, y, clockwidth, -(60-second())*3, 'red');
-    OF(x, y, clockwidth, -60*3, 0, 2);
-    clockText(25, 0, 's', 98, 380);
+    GW(x, y, clockWidth, -60*3);
+    RA(x, y, clockWidth, -(60-second())*3, 'red');
+    OF(x, y, clockWidth, -60*3, clockColor, 2);
+    clockText(25, clockColor, 's', 68, 380);
 };
 
+//残りの分数
 const MC = () =>{
-    const x = 180;
+    const x = 150;
     const y = 350;
 
-    whiteBg(x, y, clockwidth, -60*3);
-    RA(x, y, clockwidth, -(60-minute())*3, 'blue');
-    OF(x, y, clockwidth, -60*3, 0, 2);
-    clockText(25, 0, 'm', 193, 380);
+    GW(x, y, clockWidth, -60*3);
+    RA(x, y, clockWidth, -(60-minute())*3, 'blue');
+    OF(x, y, clockWidth, -60*3, clockColor, 2);
+    clockText(25, clockColor, 'm', 163, 380);
 };
 
+//残りの時間
 const HC = () =>{
-    const x =280;
+    const x =250;
     const y =350;
 
-    whiteBg(x, y, clockwidth, -24*3);
-    RA(x, y, clockwidth, -(24-hour())*3, 'green');
-    OF(x, y, clockwidth, -24*3, 0, 2);
-    clockText(25, 0, 'h', 298, 380);
+    GW(x, y, clockWidth, -24*3);
+    RA(x, y, clockWidth, -(24-hour())*3, 'green');
+    OF(x, y, clockWidth, -24*3, clockColor, 2);
+    clockText(25, clockColor, 'h', 268, 380);
+};
+
+//夏休みの残り日数
+const DC =() =>{
+    const x = 460;
+    const y = 350;
+
+    const today = new Date().getTime();
+    const summerHoliday = Date.parse(`${year()}/9/18`);
+    const limitSH = (summerHoliday - today)/(1000*60*60*24)+1;
+
+    GW(x, y, clockWidth, -(2+31+18)*3);
+    RA(x, y, clockWidth, -(limitSH)*3, 'orange');
+    OF(x, y, clockWidth, -(2+31+18)*3, clockColor, 2);
+    clockText(25, clockColor, `夏休み残り${Math.trunc(limitSH)}日`, 430, 50);
+    
 };
 
 const lavel = () =>{
     textSize(25);
     noStroke();
-    fill(0);
+    fill(clockColor);
     text(`${year()}年${month()}月${day()}日の残り時間`, 20, 50);
 };
 
