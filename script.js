@@ -20,7 +20,7 @@ const limitNYE = () =>{
 //2022年の夏休みの残り日数
 const limitSH = () =>{
     const today = new Date().getTime();
-    const summerHoliday = Date.parse(`${year()}/9/18`);
+    const summerHoliday = Date.parse(`2021/9/18`);
     const limitSH = (summerHoliday - today)/(1000*60*60*24)+1;
     return limitSH;
 };
@@ -103,7 +103,6 @@ const SHC = () =>{
 };
 
 //大晦日まであと何日
-
 const NYEC = () =>{
     const x = 630;
     const y = 380;
