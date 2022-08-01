@@ -1,21 +1,20 @@
 const clockWidth = 50;
 const clockColor = 0;
 
-function setup(){
-    createCanvas(720, 400);
-
-    console.log(new Date());
-    const today = new Date().getTime();
-    console.log(today);
-
+//その年の日数
+const wholeYear = () =>{
+    const NYD = Date.parse(`${year()}/1/1`);
     const newYearsEve = Date.parse(`${year()}/12/31`);
-    console.log(newYearsEve);
-    console.log((newYearsEve-today)/(1000*60*60*24)+1);
+    const wholeYear = (newYearsEve - NYD)/(1000*60*60*24)+1
+    return wholeYear;
+}
 
-    const summerHoliday = Date.parse(`${year()}/9/18`);
-    const limitSH = (summerHoliday - today)/(1000*60*60*24)+1;
-    console.log(limitSH);
-
+//大晦日までの日数
+const limitNYE = () =>{
+    const today = new Date().getTime();
+    const newYearsEve = Date.parse(`${year()}/12/31`);
+    const limitNYE = (newYearsEve-today)/(1000*60*60*24)+1;
+    return limitNYE;
 };
 
 //2022年の夏休みの残り日数
@@ -92,7 +91,7 @@ const HC = () =>{
 };
 
 //2022年の夏休みの残り日数
-const SHC =() =>{
+const SHC = () =>{
     const x = 460;
     const y = 350;
 
@@ -103,12 +102,43 @@ const SHC =() =>{
     
 };
 
+//大晦日まであと何日
+
+const NYEC = () =>{
+    const x = 630;
+    const y = 380;
+
+    GW(x, y, clockWidth, -wholeYear());
+    RA(x, y, clockWidth, -limitNYE(), 'purple');
+    OF(x, y, clockWidth, -wholeYear(), clockColor, 2);
+    clockText(25, clockColor, `大晦日まで残り${Math.trunc(limitNYE())}日`, 360, 50);
+};
+
 //日付
 const lavel = () =>{
     textSize(25);
     noStroke();
     fill(clockColor);
     text(`${year()}年${month()}月${day()}日の残り時間`, 20, 50);
+};
+
+function setup(){
+    createCanvas(720, 400);
+
+    console.log(new Date());
+    const today = new Date().getTime();
+    console.log(today);
+
+    const newYearsEve = Date.parse(`${year()}/12/31`);
+    console.log(newYearsEve);
+    console.log((newYearsEve-today)/(1000*60*60*24)+1);
+
+    const summerHoliday = Date.parse(`${year()}/9/18`);
+    const limitSH = (summerHoliday - today)/(1000*60*60*24)+1;
+    console.log(limitSH);
+
+    console.log(wholeYear());
+
 };
 
 function draw(){
@@ -118,6 +148,8 @@ function draw(){
     HC();
     if(limitSH() > -1){
         SHC();
+    } else{
+        NYEC();
     }
     lavel();
 };
