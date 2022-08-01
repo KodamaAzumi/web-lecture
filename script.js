@@ -39,6 +39,7 @@ function draw(){
         strokeWeight(sw);
         noFill();
         rect(x, y, w, h);
+        line(x, y+h/2, x + clockwidth, y+h/2);
     };
 
     //text
