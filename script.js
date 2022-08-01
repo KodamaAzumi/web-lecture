@@ -18,17 +18,13 @@ function setup(){
 
 };
 
-function draw(){
-    background(230);
-    SC();
-    MC();
-    HC();
-    if(year() < 2023){
-        DC();
-    };
-    lavel();
+//2022年の夏休みの残り日数
+const limitSH = () =>{
+    const today = new Date().getTime();
+    const summerHoliday = Date.parse(`${year()}/9/18`);
+    const limitSH = (summerHoliday - today)/(1000*60*60*24)+1;
+    return limitSH;
 };
-
 
 //時計の見た目
     //下地
@@ -95,27 +91,35 @@ const HC = () =>{
     clockText(25, clockColor, 'h', 268, 380);
 };
 
-//夏休みの残り日数
-const DC =() =>{
+//2022年の夏休みの残り日数
+const SHC =() =>{
     const x = 460;
     const y = 350;
 
-    const today = new Date().getTime();
-    const summerHoliday = Date.parse(`${year()}/9/18`);
-    const limitSH = (summerHoliday - today)/(1000*60*60*24)+1;
-
     GW(x, y, clockWidth, -(2+31+18)*3);
-    RA(x, y, clockWidth, -(limitSH)*3, 'orange');
+    RA(x, y, clockWidth, -(limitSH())*3, 'orange');
     OF(x, y, clockWidth, -(2+31+18)*3, clockColor, 2);
-    clockText(25, clockColor, `夏休み残り${Math.trunc(limitSH)}日`, 430, 50);
+    clockText(25, clockColor, `夏休み残り${Math.trunc(limitSH())}日`, 430, 50);
     
 };
 
+//日付
 const lavel = () =>{
     textSize(25);
     noStroke();
     fill(clockColor);
     text(`${year()}年${month()}月${day()}日の残り時間`, 20, 50);
+};
+
+function draw(){
+    background(230);
+    SC();
+    MC();
+    HC();
+    if(limitSH() > -1){
+        SHC();
+    }
+    lavel();
 };
 
 
