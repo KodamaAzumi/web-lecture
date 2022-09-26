@@ -21,7 +21,7 @@ const limitNYE = () =>{
 const limitSH = () =>{
     const today = new Date().getTime();
     const summerHoliday = Date.parse(`${year()}/9/18`);
-    const limitSH = (summerHoliday - today)/(1000*60*60*24)+1;
+    const limitSH = (summerHoliday - today)/(1000*60*60*24);
     return limitSH;
 };
 
