@@ -18,12 +18,14 @@ const limitNYE = () =>{
 };
 
 //2022年の夏休みの残り日数
+/*
 const limitSH = () =>{
     const today = new Date().getTime();
     const summerHoliday = Date.parse(`${year()}/9/18`);
     const limitSH = (summerHoliday - today)/(1000*60*60*24);
     return limitSH;
 };
+*/
 
 //時計の見た目
     //下地
@@ -91,6 +93,7 @@ const HC = () =>{
 };
 
 //2022年の夏休みの残り日数
+/*
 const SHC = () =>{
     const x = 460;
     const y = 350;
@@ -101,6 +104,7 @@ const SHC = () =>{
     clockText(25, clockColor, `夏休み残り${Math.trunc(limitSH())}日`, 430, 50);
     
 };
+*/
 
 //大晦日まであと何日
 const NYEC = () =>{
@@ -132,9 +136,11 @@ function setup(){
     console.log(newYearsEve);
     console.log((newYearsEve-today)/(1000*60*60*24)+1);
 
+    /*
     const summerHoliday = Date.parse(`${year()}/9/18`);
     const limitSH = (summerHoliday - today)/(1000*60*60*24)+1;
     console.log(limitSH);
+    */
 
     console.log(wholeYear());
 
@@ -144,12 +150,8 @@ function draw(){
     background(230);
     SC();
     MC();
-    HC();
-    if(limitSH() > -1){
-        SHC();
-    } else{
-        NYEC();
-    }
+    HC()
+    NYEC();
     lavel();
 };
 
